@@ -18,6 +18,46 @@ def stable_int(s):
     return int(h[:8], 16)
 
 
+def _log_feature_v07(series):
+    x = pd.to_numeric(series, errors="coerce").astype(float)
+    return np.log1p(np.clip(x, 0, None))
+
+
+def _make_log_matrix_v07(df, dataset):
+    fmap = field_map(dataset)
+    return np.column_stack([
+        _log_feature_v07(df[fmap[k]["continuous_col"]]).to_numpy()
+        for k in semantic_keys(dataset)
+    ])
+
+
+def _intent_key(intent):
+    dataset = str(intent["dataset"])
+
+    if dataset == "gavist5g":
+        return (
+            dataset,
+            str(intent["application"]),
+            str(intent["traffic_intensity"]),
+            str(intent["event_intensity"]),
+            str(intent["burstiness"]),
+            str(intent["artt"]),
+        )
+
+    if dataset == "cesnet_ts24":
+        return (
+            dataset,
+            str(intent["traffic_volume"]),
+            str(intent["packet_intensity"]),
+            str(intent["flow_intensity"]),
+            str(intent["burstiness"]),
+            str(intent["packet_burstiness"]),
+            str(intent["flow_duration"]),
+        )
+
+    raise ValueError(f"Unsupported vector dataset: {dataset}")
+
+
 def empirical_quantile(pool, u):
     if len(pool) == 0:
         return np.nan
@@ -45,7 +85,9 @@ class SemanticCopulaSynthesizer:
         self.keys = semantic_keys(self.dataset)
         self.fields = field_map(self.dataset)
 
-        x = make_log_matrix(self.train_df, self.dataset)
+        # Experiment 07 used float64 here. Do not reuse the
+        # float32 CFM/verifier matrix helper from Experiment 08b.
+        x = _make_log_matrix_v07(self.train_df, self.dataset)
         if len(x) > 30000:
             rng = np.random.default_rng(self.seed)
             idx = rng.choice(len(x), size=30000, replace=False)
@@ -110,8 +152,7 @@ class SemanticCopulaSynthesizer:
 
     def generate_candidates(self, intent: Dict[str, Any], budget: int = 8):
         cache_key = (
-            self.dataset,
-            tuple(sorted(intent.items())),
+            _intent_key(intent),
             int(budget),
         )
         seed = self.seed + stable_int(cache_key)

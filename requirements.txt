@@ -9,3 +9,4 @@ PyYAML
 pytest
 requests
 kagglehub
+pyarrow==17.0.0

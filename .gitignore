@@ -51,3 +51,4 @@ results/cache/
 *.key
 credentials*
 secrets*
+results/local_validation/

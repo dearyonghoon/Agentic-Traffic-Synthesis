@@ -130,6 +130,33 @@ def _stable_seed(base_seed, obj):
     return (base_seed + int(h[:8], 16)) % (2**31 - 1)
 
 
+def _intent_key(intent):
+    dataset = str(intent["dataset"])
+
+    if dataset == "gavist5g":
+        return (
+            dataset,
+            str(intent["application"]),
+            str(intent["traffic_intensity"]),
+            str(intent["event_intensity"]),
+            str(intent["burstiness"]),
+            str(intent["artt"]),
+        )
+
+    if dataset == "cesnet_ts24":
+        return (
+            dataset,
+            str(intent["traffic_volume"]),
+            str(intent["packet_intensity"]),
+            str(intent["flow_intensity"]),
+            str(intent["burstiness"]),
+            str(intent["packet_burstiness"]),
+            str(intent["flow_duration"]),
+        )
+
+    raise ValueError(f"Unsupported vector dataset: {dataset}")
+
+
 class ResidualFiLMCFMSynthesizer:
     """Frozen CESNET/GAViST Residual-FiLM conditional flow synthesizer."""
 
@@ -231,10 +258,7 @@ class ResidualFiLMCFMSynthesizer:
             np.repeat(cond_np[None, :], budget, axis=0)
         ).to(self.device)
 
-        key = (
-            self.dataset,
-            tuple(sorted(intent.items())),
-        )
+        key = _intent_key(intent)
         g = torch.Generator(device=self.device)
         g.manual_seed(_stable_seed(self.seed, key))
 
