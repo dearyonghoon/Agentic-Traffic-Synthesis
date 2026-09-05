@@ -111,6 +111,39 @@ python scripts/verify_dataset_setup.py --strict-counts
 
 The strict audit checks the frozen GAViST5G and CESNET counts and the MAWI trace/split/sequence protocol.
 
+
+## Frozen Original-40 Reproduction
+
+The repository includes the frozen unsupported-intent benchmark and the
+pretrained Residual FiLM-CFM checkpoints required for the CESNET-TimeSeries24
+and GAViST5G original-40 audit.
+
+Verify the public checkpoints:
+
+    sha256sum -c pretrained/SHA256SUMS
+
+After preparing the datasets, reproduce the frozen benchmark:
+
+    python scripts/verify_public_original40.py
+
+To use a non-default dataset location:
+
+    python scripts/verify_public_original40.py --data-root /path/to/AgenticTraffic
+
+The frozen reference contains 40 unsupported intents per dataset. With an
+attempt budget of 8, the reference aggregate success counts are:
+
+| Dataset | Copula | Residual FiLM-CFM |
+|---|---:|---:|
+| CESNET-TimeSeries24 | 5 / 40 | 11 / 40 |
+| GAViST5G | 6 / 40 | 4 / 40 |
+
+The reproduction script checks equality of these paper-level aggregate
+outcomes and also reports per-intent exact fidelity. The aggregate results are
+the default reproduction criterion. For a stricter diagnostic, run:
+
+    python scripts/verify_public_original40.py --require-case-exact
+
 ## Repository Structure
 
 ```text
@@ -128,7 +161,7 @@ docs/           Implementation notes
 
 ## Code Release Status
 
-Core agent and synthesis modules, lightweight behavioral tests, and dataset-preparation scripts are available. Pretrained checkpoints and full paper-reproduction scripts will be added as the public release is finalized.
+Core agent and synthesis modules, dataset-preparation scripts, behavioral tests, the frozen original-40 unsupported-intent benchmark, and the CESNET/GAViST Residual FiLM-CFM checkpoints are publicly available. The repository includes a standalone reproduction script for the frozen vector-domain audit. Additional paper-table and end-to-end evaluation scripts will be added as the release is finalized.
 
 ## License
 
