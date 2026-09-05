@@ -1,0 +1,14 @@
+# Frozen final execution order.
+# The agent changes tools after verifier failure; it never changes the intent.
+
+cesnet_ts24:
+  - cfm
+  - copula
+
+gavist5g:
+  - copula
+  - cfm
+
+mawi:
+  - scfm
+  - copula

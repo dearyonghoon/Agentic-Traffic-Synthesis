@@ -36,7 +36,7 @@ examples/       End-to-end usage examples
 
 ## Code Release Status
 
-This repository accompanies the paper and is being organized for reproducible public release.
+Core agent and synthesis modules are now available. Dataset preparation, pretrained checkpoints, and full paper-reproduction scripts will be added as the public release is finalized.
 
 ## License
 

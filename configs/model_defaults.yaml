@@ -1,0 +1,56 @@
+seed: 2026
+attempt_budget: 8
+
+intent_compiler:
+  model: Qwen/Qwen2.5-7B-Instruct
+  batch_size: 8
+  max_new_tokens: 220
+  natural_language_domains:
+    - cesnet_ts24
+    - gavist5g
+
+cesnet_gavist_residual_film_cfm:
+  hidden_dim: 256
+  cond_hidden_dim: 192
+  time_dim: 32
+  n_blocks: 4
+  flow_steps: 32
+  max_attempt_budget: 16
+  train:
+    gavist5g_steps: 6000
+    cesnet_ts24_steps: 12000
+    batch_size: 2048
+    val_batch_size: 4096
+    lr: 0.0002
+    weight_decay: 0.00001
+    eval_every: 250
+    grad_clip: 1.0
+  semantic_stats:
+    min_group_count: 25
+    min_scale: 0.10
+
+mawi:
+  sequence_length_seconds: 30
+  stride_seconds: 5
+  attempt_budget: 8
+  flow_steps: 32
+  cfm_fit_traces:
+    - "202401011400"
+    - "202403011400"
+    - "202405011400"
+    - "202407011400"
+  cfm_dev_trace: "202409011400"
+  semantic_cfm:
+    hidden_dim: 384
+    cond_hidden_dim: 192
+    time_dim: 32
+    n_blocks: 4
+    train_steps: 6000
+    batch_size: 256
+    lr: 0.0002
+    weight_decay: 0.00001
+    eval_every: 200
+    grad_clip: 1.0
+    semantic_lambda: 1.0
+    semantic_warmup_steps: 1000
+    semantic_margin_fraction: 0.05

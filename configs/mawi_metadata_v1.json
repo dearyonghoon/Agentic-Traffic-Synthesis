@@ -1,0 +1,66 @@
+{
+  "experiment": "10c_mawi_semantic_consistency_temporal_cfm",
+  "seed": 2026,
+  "sequence_length_seconds": 30,
+  "stride_seconds": 5,
+  "attempt_budget": 8,
+  "calibration_size": 30,
+  "semantic_fields": [
+    "traffic_volume",
+    "packet_intensity",
+    "packet_size",
+    "byte_burstiness",
+    "peakiness"
+  ],
+  "semantic_thresholds_log1p": {
+    "traffic_volume": [
+      19.05849044263824,
+      19.346594873980834
+    ],
+    "packet_intensity": [
+      12.18577740775587,
+      12.34282099469353
+    ],
+    "packet_size": [
+      6.890997826860242,
+      7.053432722110315
+    ],
+    "byte_burstiness": [
+      0.14198881199755525,
+      0.19232854442661554
+    ],
+    "peakiness": [
+      0.8129540886331309,
+      0.8610820131306213
+    ]
+  },
+  "cfm_fit_traces": [
+    "202401011400",
+    "202403011400",
+    "202405011400",
+    "202407011400"
+  ],
+  "cfm_dev_trace": "202409011400",
+  "semantic_lambda": 1.0,
+  "semantic_warmup_steps": 1000,
+  "semantic_margin_fraction": 0.05,
+  "n_full_semantic_space": 243,
+  "n_train_supported": 69,
+  "n_unsupported": 174,
+  "n_calibration": 30,
+  "n_heldout": 144,
+  "selected_tool_order": [
+    "scfm",
+    "copula"
+  ],
+  "active_router_tools": [
+    "copula",
+    "semantic_consistency_cfm"
+  ],
+  "flowonly_cfm_role": "ablation_only",
+  "automatic_semantic_relaxation": false,
+  "post_generation_semantic_projection": false,
+  "sampling_time_semantic_guidance": false,
+  "heldout_tool_outcomes_used_for_selection": false,
+  "copula_direct_semantic_pool_sampling": false
+}
