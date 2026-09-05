@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments
+venv/
+.venv/
+env/
+.env
+*.env
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Data
+data/
+datasets/
+*.pcap
+*.pcap.gz
+*.tfrecord
+*.parquet
+
+# Model checkpoints
+checkpoints/
+models/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Large/generated experiment outputs
+logs/
+runs/
+outputs/
+tmp/
+*.log
+
+# Local result caches
+results/raw/
+results/cache/
+
+# Credentials
+*.pem
+*.key
+credentials*
+secrets*
