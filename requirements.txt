@@ -7,3 +7,5 @@ transformers
 accelerate
 PyYAML
 pytest
+requests
+kagglehub

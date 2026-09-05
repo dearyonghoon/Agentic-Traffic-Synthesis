@@ -45,6 +45,72 @@ python -m pytest -q
 
 The tests include intent-preserving fallback and the frozen MAWI structural-feasibility guard.
 
+## Dataset Sources
+
+Raw traffic data are **not redistributed in this repository**.
+
+- **GAViST5G**: Kaggle dataset `ahassanein/aggregated-gaming-and-video-streaming-traffic-for-5g`.
+- **CESNET-TimeSeries24**: Zenodo record `13382427`, using `ip_addresses_sample.tar.gz`. The frozen archive MD5 is `08451dab2d1eddb29a79467b03289232`.
+- **MAWI**: samplepoint-F 2024 traces at 14:00 on Jan. 1, Mar. 1, May 1, Jul. 1, Sep. 1, and Nov. 1. Jan/Mar/May/Jul are training traces, Sep is validation, and Nov is test.
+
+Please follow the original dataset licenses and terms of use.
+
+## Dataset Preparation
+
+By default, the scripts use:
+
+```text
+/data/dataset/AgenticTraffic/
+├── gavist5g/
+│   ├── raw/
+│   ├── processed/
+│   └── metadata/
+├── cesnet_ts24/
+│   ├── raw/
+│   ├── processed/
+│   └── metadata/
+└── mawi/
+    ├── raw/
+    ├── processed/
+    └── metadata/
+```
+
+A different root can be supplied with `--data-root`.
+
+Prepare GAViST5G:
+
+```bash
+python scripts/prepare_gavist5g.py
+```
+
+Prepare CESNET-TimeSeries24:
+
+```bash
+python scripts/prepare_cesnet.py
+```
+
+Prepare MAWI:
+
+```bash
+python scripts/prepare_mawi.py
+```
+
+MAWI preprocessing requires the system executable `tshark`. On Debian/Ubuntu it can be installed with the system package manager.
+
+The final frozen representations are:
+
+- GAViST5G: non-overlapping 60-s windows, application-stratified source-file split, and train-only semantic thresholds.
+- CESNET-TimeSeries24: strict non-overlapping 12-row windows with consecutive integer time indices, source-file group split, and train-only semantic thresholds.
+- MAWI: 30-s bytes/packet sequences with 5-s stride and train-only semantic thresholds.
+
+Audit the resulting files:
+
+```bash
+python scripts/verify_dataset_setup.py --strict-counts
+```
+
+The strict audit checks the frozen GAViST5G and CESNET counts and the MAWI trace/split/sequence protocol.
+
 ## Repository Structure
 
 ```text
@@ -52,7 +118,7 @@ agent/          Agentic control logic
 generators/     Traffic synthesis tools
 configs/        Frozen experiment and domain configurations
 benchmarks/     Intent benchmarks used in the paper
-scripts/        Evaluation and reproduction scripts
+scripts/        Dataset, evaluation, and reproduction scripts
 notebooks/      Supplementary analyses
 results/        Paper tables and figures
 examples/       End-to-end and control-plane usage examples
@@ -62,7 +128,7 @@ docs/           Implementation notes
 
 ## Code Release Status
 
-Core agent and synthesis modules are now available. Dataset preparation, pretrained checkpoints, and full paper-reproduction scripts will be added as the public release is finalized.
+Core agent and synthesis modules, lightweight behavioral tests, and dataset-preparation scripts are available. Pretrained checkpoints and full paper-reproduction scripts will be added as the public release is finalized.
 
 ## License
 
