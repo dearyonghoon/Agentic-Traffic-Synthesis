@@ -21,6 +21,30 @@ The agent performs:
 
 A failed synthesis attempt changes the **tool**, not the **user intent**.
 
+## Quick Start
+
+Install the Python dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Run the lightweight control-plane demo:
+
+```bash
+python examples/control_plane_demo.py
+```
+
+The demo does not require traffic datasets or pretrained checkpoints. It verifies the key execution invariant of the proposed agent: after a verifier failure, the agent may switch synthesis tools, but every tool receives the same original traffic intent.
+
+Run the public tests:
+
+```bash
+python -m pytest -q
+```
+
+The tests include intent-preserving fallback and the frozen MAWI structural-feasibility guard.
+
 ## Repository Structure
 
 ```text
@@ -31,7 +55,9 @@ benchmarks/     Intent benchmarks used in the paper
 scripts/        Evaluation and reproduction scripts
 notebooks/      Supplementary analyses
 results/        Paper tables and figures
-examples/       End-to-end usage examples
+examples/       End-to-end and control-plane usage examples
+tests/          Public behavioral tests
+docs/           Implementation notes
 ```
 
 ## Code Release Status

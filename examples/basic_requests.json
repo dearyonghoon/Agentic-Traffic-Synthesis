@@ -1,0 +1,25 @@
+[
+  {
+    "name": "cesnet_structured_example",
+    "intent": {
+      "dataset": "cesnet_ts24",
+      "traffic_volume": "high",
+      "packet_intensity": "medium",
+      "flow_intensity": "low",
+      "burstiness": "high",
+      "packet_burstiness": "medium",
+      "flow_duration": "low"
+    }
+  },
+  {
+    "name": "gavist_structured_example",
+    "intent": {
+      "dataset": "gavist5g",
+      "application": "YouTube",
+      "traffic_intensity": "high",
+      "event_intensity": "medium",
+      "burstiness": "low",
+      "artt": "medium"
+    }
+  }
+]
