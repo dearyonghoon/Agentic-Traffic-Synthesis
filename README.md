@@ -118,6 +118,18 @@ The repository includes the frozen unsupported-intent benchmark and the
 pretrained Residual FiLM-CFM checkpoints required for the CESNET-TimeSeries24
 and GAViST5G original-40 audit.
 
+The frozen vector-domain experiments were executed with Python 3.11.16,
+NumPy 2.1.2, SciPy 1.16.3, pandas 2.3.3, and scikit-learn 1.7.2.
+For the closest reproduction environment, install the public dependencies
+with the supplied numerical constraints:
+
+    python -m pip install -r requirements.txt -c reproduction-constraints.txt
+
+Gaussian-copula candidate trajectories can vary across numerical-library
+environments. Therefore, the released script uses equality of the reported
+aggregate generator outcomes as the default reproduction criterion and
+reports per-intent fidelity separately.
+
 Verify the public checkpoints:
 
     sha256sum -c pretrained/SHA256SUMS
