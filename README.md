@@ -156,6 +156,46 @@ the default reproduction criterion. For a stricter diagnostic, run:
 
     python scripts/verify_public_original40.py --require-case-exact
 
+## End-to-End and Exhaustive Vector-Domain Reproduction
+
+The public release also includes the frozen end-to-end original-40 agent audit
+and the complete unsupported semantic-space evaluation used in Experiment 18.
+The matched original-40 reference contains 80 executable intents in total and
+reports 17/80 (21.25%) verified outcomes for the frozen single-shot registry
+and 21/80 (26.25%) for intent-preserving two-tool orchestration.
+
+Run the end-to-end matched audit:
+
+    python scripts/run_evaluation.py --device cuda
+
+The exhaustive unsupported-space script reconstructs the unsupported semantic
+space directly from the frozen training split and evaluates all 697 vector-domain
+intents: 281 for CESNET-TimeSeries24 and 416 for GAViST5G.
+
+    python scripts/reproduce_exhaustive_unsupported.py --device cuda
+
+The frozen Experiment-18 aggregate references are:
+
+| Dataset | Unsupported intents | Copula | Residual FiLM-CFM | Union |
+|---|---:|---:|---:|---:|
+| CESNET-TimeSeries24 | 281 | 33 / 281 | 74 / 281 | 84 / 281 (29.89%) |
+| GAViST5G | 416 | 76 / 416 | 53 / 416 | 83 / 416 (19.95%) |
+
+Build compact CSV and Markdown summaries from the reproduced outputs:
+
+    python scripts/reproduce_tables.py
+
+Or run the complete vector-domain reproduction pipeline with one command:
+
+    python scripts/reproduce_all_vector.py --device cuda
+
+For a strict aggregate check against the frozen paper references, use:
+
+    python scripts/reproduce_all_vector.py --device cuda --require-paper-aggregate
+
+Generated reproduction outputs are written under `results/reproduction/` and
+are intentionally excluded from version control.
+
 ## Repository Structure
 
 ```text
@@ -173,7 +213,11 @@ docs/           Implementation notes
 
 ## Code Release Status
 
-Core agent and synthesis modules, dataset-preparation scripts, behavioral tests, the frozen original-40 unsupported-intent benchmark, and the CESNET/GAViST Residual FiLM-CFM checkpoints are publicly available. The repository includes a standalone reproduction script for the frozen vector-domain audit. Additional paper-table and end-to-end evaluation scripts will be added as the release is finalized.
+Core agent and synthesis modules, dataset-preparation scripts, behavioral tests,
+the frozen original-40 unsupported-intent benchmark, the exhaustive 697-intent
+aggregate reference, pretrained CESNET/GAViST Residual FiLM-CFM checkpoints,
+and public scripts for generator-level, end-to-end, exhaustive, and table-level
+vector-domain reproduction are available in this repository.
 
 ## License
 
