@@ -1,0 +1,3 @@
+dataset,n_unique,profile_first,copula_success_n,cfm_success_n,both_n,copula_only_n,cfm_only_n,neither_n,union_n
+cesnet_ts24,281,cfm,33,74,23,10,51,197,84
+gavist5g,416,copula,76,53,46,30,7,333,83
